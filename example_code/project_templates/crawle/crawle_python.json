@@ -1,1 +1,21 @@
-{}
+{
+  "referenceList": [
+    "device"
+  ],
+  "referenceListDetails": {
+    "device": {
+      "title": "device",
+      "categories": [
+        {
+          "title": "project1",
+          "complexity": "Beginner",
+          "language": "python",
+          "description": "project 1 description",
+          "deviceFeatures": [
+            "led"
+          ]
+        }
+      ]
+    }
+  }
+}
