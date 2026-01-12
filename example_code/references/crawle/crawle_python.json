@@ -22,23 +22,6 @@
               "examples": [
                 "print('led on')\nprint('led on')\nprint('led on')"
               ]
-            },
-            {
-              "name": "servo on",
-              "description": "servo o description",
-              "sections": [
-                {
-                  "header": "led on",
-                  "description": "led on description"
-                },
-                {
-                  "header": "servo on",
-                  "description": "servo on description"
-                }
-              ],
-              "examples": [
-                "print('servo on description')"
-              ]
             }
           ]
         }
