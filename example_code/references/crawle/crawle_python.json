@@ -20,7 +20,7 @@
                 }
               ],
               "examples": [
-                "print('led on')"
+                "print('led on')\nprint('led on')\nprint('led on')"
               ]
             },
             {
