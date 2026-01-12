@@ -1,1 +1,31 @@
-{}
+{
+  "referenceList": [
+    "ttt"
+  ],
+  "referenceListDetails": {
+    "ttt": {
+      "title": "ttt",
+      "categories": [
+        {
+          "title": "tt sub catagory",
+          "description": "ttt sub cata gory description",
+          "entries": [
+            {
+              "name": "led on",
+              "description": "led blinkind",
+              "sections": [
+                {
+                  "header": "led on",
+                  "description": "led on description"
+                }
+              ],
+              "examples": [
+                "print('led on')"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
