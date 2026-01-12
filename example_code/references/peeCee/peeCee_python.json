@@ -5,56 +5,458 @@
       "title": "Functions",
       "categories": [
         {
-          "title": "Digital I/O py",
+          "title": "Digital I/O",
           "entries": [
             {
-              "name": "digitalRead()",
-              "description": "Reads the value from a specified digital pin, either HIGH or LOW.",
-              "sections": [
-                { "header": "Syntax", "description": "digitalRead(pin)" },
-                {
-                  "header": "Parameters",
-                  "description": "Pin: the Arduino pin number you want to read"
-                },
-                { "header": "Returns", "description": "HIGH or LOW" }
-              ],
-              "examples": [
-                "// Reads digital value\nint value = digitalRead(2);\nif (value == HIGH) {\n  // do something\n}"
-              ]
-            },
-            {
-              "name": "digitalWrite()",
-              "description": "Writes a HIGH or a LOW value to a digital pin.",
+              "name": "GPIO_read",
+              "description": "Reads the digital input value (HIGH or LOW) from a specified GPIO pin using MicroPython.",
               "sections": [
                 {
                   "header": "Syntax",
-                  "description": "digitalWrite(pin, value)"
+                  "description": "pin = Pin(pin_name, Pin.IN)\npin_value = pin.value()"
                 },
                 {
                   "header": "Parameters",
-                  "description": "Pin: the Arduino pin number; Value: HIGH or LOW"
+                  "description": "pin_name: The GPIO pin identifier (e.g., PORT_A1).\nPin.IN: Configures the pin as an input pin."
                 },
-                { "header": "Returns", "description": "None" }
+                {
+                  "header": "Returns",
+                  "description": "Returns 1 if the pin is HIGH and 0 if the pin is LOW."
+                }
               ],
-              "examples": ["// Sets pin 13 HIGH\ndigitalWrite(13, HIGH);"]
+              "examples": [
+                "from playcomputer import *\nfrom machine import Pin\nfrom time import sleep\n\nA1 = Pin(PORT_A1, Pin.IN)\n\nwhile True:\n    A1_val = A1.value()\n    sleep(1)\n    print(A1_val)"
+              ]
+            },
+            {
+              "name": "digitalOutput",
+              "description": "Controls external components connected to a digital output pin. You can set the pin HIGH or LOW to turn devices on or off.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "port = Pin(PORT_A1, Pin.OUT)\nport.value(1)  # Set HIGH\nport.value(0)  # Set LOW"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The external pin where the component is connected.\nPin.OUT: Configures the pin as a digital output.\nvalue: 1 sets HIGH, 0 sets LOW."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. Writing HIGH or LOW to the pin changes the state of the connected external component."
+                }
+              ],
+              "examples": [
+                "from playcomputer import PORT_A1, Pin\nfrom time import sleep\n\nport = Pin(PORT_A1, Pin.OUT)\n\nwhile True:\n    port.value(1)  # Turn on\n    sleep(1)\n    port.value(0)  # Turn off\n    sleep(1)"
+              ]
             }
           ]
         },
         {
-          "title": "Analog I/O py",
+          "title": "Analog I/O",
           "entries": [
             {
-              "name": "analogRead()",
-              "description": "Reads the value from the specified analog pin.",
+              "name": "ADC_read",
+              "description": "Reads the analog input value from a specified GPIO pin using MicroPython’s ADC (Analog-to-Digital Converter).",
               "sections": [
-                { "header": "Syntax", "description": "analogRead(pin)" },
+                {
+                  "header": "Syntax",
+                  "description": "adc = ADC(Pin(pin_name))\nadc.atten(ADC.ATTN_11DB)\nvalue = adc.read()"
+                },
                 {
                   "header": "Parameters",
-                  "description": "Pin: the Arduino analog pin number"
+                  "description": "pin_name: The GPIO pin where the analog sensor is connected (e.g., PORT_A1).\nADC.ATTN_11DB: Configures the ADC input range up to 3.3V."
                 },
-                { "header": "Returns", "description": "0-1023" }
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the analog input value, typically ranging from 0 to 4095 depending on the board and voltage."
+                }
               ],
-              "examples": ["// Read analog value\nint value = analogRead(A0);"]
+              "examples": [
+                "from playcomputer import PORT_A1, Pin, ADC\nfrom time import sleep\n\npot = ADC(Pin(PORT_A1))\npot.atten(ADC.ATTN_11DB)       # Full range: 3.3V\n\nwhile True:\n    pot_value = pot.read()\n    print(pot_value)\n    sleep(0.1)"
+              ]
+            },
+            {
+              "name": "pwmOutput",
+              "description": "Controls external components (e.g., LEDs, motors) using PWM signals on a specific pin. You can set the duty cycle to control brightness or speed.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "pwm = PWM(playcomputer.PORT_A1)\npwm.duty_u16(duty)  # Set PWM duty cycle"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The external pin where the component is connected.\nduty: Integer (0–65535) representing the PWM duty cycle. 32768 = 50% duty cycle."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The function adjusts the PWM signal to control brightness or speed of the connected component."
+                }
+              ],
+              "examples": [
+                "import playcomputer\nfrom machine import PWM\n\npwm = PWM(playcomputer.PORT_A1)\npwm.duty_u16(32768)  # 50% duty cycle"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Internal Inputs",
+          "entries": [
+            {
+              "name": "readTemperature",
+              "description": "Reads the built-in temperature sensor’s analog value using the ADC (Analog-to-Digital Converter) on the board. The temperature sensor is fixed to a dedicated pin and does not require external wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "temp = ADC(Pin(TEMP_PIN))\ntemp.atten(ADC.ATTN_11DB)\nvalue = temp.read()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "TEMP_PIN: The fixed onboard pin connected to the built-in temperature sensor. This pin is predefined by the board and cannot be changed.\nADC.ATTN_11DB: Configures the ADC to read the full voltage range (up to 3.3V)."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the raw analog value from the onboard temperature sensor. The value typically ranges from 0 to 4095 and can be converted to a temperature value in degrees Celsius depending on the sensor calibration."
+                }
+              ],
+              "examples": [
+                "from playcomputer import *\nfrom time import sleep\n\ntemp = ADC(Pin(TEMP_PIN))\ntemp.atten(ADC.ATTN_11DB)\n\nwhile True:\n    t = temp.read()\n    print(t)\n    sleep(1)"
+              ]
+            },
+
+            {
+              "name": "readMic",
+              "description": "Reads the sound intensity value from the built-in microphone on the board. The microphone is onboard and connected to a fixed pin, so no additional wiring is required.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "mic = Mic()\nvalue = mic.read()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Mic(): Initializes the built-in microphone for reading sound levels. The microphone is fixed to the board and does not require a pin configuration."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the current sound intensity detected by the built-in microphone. The value increases as the ambient sound gets louder."
+                }
+              ],
+              "examples": [
+                "from playcomputer import Mic\nfrom time import sleep\n\nmic = Mic()\n\nwhile True:\n    val = mic.read()\n    print(f\"Sound : {val}\")\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readTouch",
+              "description": "Reads the touch sensitivity values from the built-in touch pads on the board. The touch pads are onboard and connected to fixed pins, so no additional wiring is required.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "t0 = TouchPad(Pin(PORT_T0))\nt1 = TouchPad(Pin(PORT_T1))\nt2 = TouchPad(Pin(PORT_T2))\nt3 = TouchPad(Pin(PORT_T3))\n\nvalue = t0.read()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_T0, PORT_T1, PORT_T2, PORT_T3: Predefined pins on the board for the built-in touch pads.\nTouchPad(): Initializes the touch pad connected to the specified fixed pin.\nPin(): Specifies the fixed pin used by the touch pad."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the raw capacitive reading of the touch pad. Lower values generally indicate a stronger touch or closer contact."
+                }
+              ],
+              "examples": [
+                "from playcomputer import TouchPad, Pin, PORT_T0, PORT_T1, PORT_T2, PORT_T3\nfrom time import sleep\n\n# Initialize touch pads\nt0 = TouchPad(Pin(PORT_T0))\nt1 = TouchPad(Pin(PORT_T1))\nt2 = TouchPad(Pin(PORT_T2))\nt3 = TouchPad(Pin(PORT_T3))\n\nwhile True:\n    t0_val = t0.read()\n    t1_val = t1.read()\n    t2_val = t2.read()\n    t3_val = t3.read()\n\n    print(f\"Touch 0 : {t0_val}\")\n    print(f\"Touch 1 : {t1_val}\")\n    print(f\"Touch 2 : {t2_val}\")\n    print(f\"Touch 3 : {t3_val}\")\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readColorValue",
+              "description": "Reads the red, green, and blue intensity values from the built-in color sensor on the board. The sensor is onboard and connected to fixed pins, so no additional wiring or pin configuration is required.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "apds = Apds()\napds.enable_color_sensor()\n\nred = apds.read_color_red()\ngreen = apds.read_color_green()\nblue = apds.read_color_blue()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Apds(): Initializes the built-in APDS color sensor.\napds.enable_color_sensor(): Activates the onboard color sensor before reading values."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Each method (read_color_red, read_color_green, read_color_blue) returns an integer representing the intensity of the respective color component detected by the sensor. Higher values indicate stronger intensity of that color in the detected light."
+                }
+              ],
+              "examples": [
+                "from playcomputer import Apds\nfrom time import sleep\n\napds = Apds()\napds.enable_color_sensor()\n\nwhile True:\n    red = apds.read_color_red()\n    green = apds.read_color_green()\n    blue = apds.read_color_blue()\n\n    print(f\"RED {red} GREEN {green} BLUE {blue}\")\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readLightValue",
+              "description": "Reads the ambient light intensity from the built-in light sensor on the board. The sensor is onboard with fixed pins and requires no additional wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "apds = Apds()\napds.enable_light_sensor()\nvalue = apds.read_light()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Apds(): Initializes the built-in APDS sensor.\napds.enable_light_sensor(): Activates the onboard light sensor."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the ambient light intensity detected by the sensor. Higher values indicate brighter light."
+                }
+              ],
+              "examples": [
+                "from playcomputer import Apds\nfrom time import sleep\n\napds = Apds()\napds.enable_light_sensor()\n\nwhile True:\n    l = apds.read_light()\n    print(l)\n    sleep(1)"
+              ]
+            },
+
+            {
+              "name": "readProximity",
+              "description": "Reads the distance or proximity value from the built-in proximity sensor. The sensor is onboard with fixed pins and requires no additional wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "apds = Apds()\napds.enable_proximity_sensor()\nvalue = apds.read_proximity()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Apds(): Initializes the built-in APDS sensor.\napds.enable_proximity_sensor(): Activates the onboard proximity sensor."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the proximity or distance detected by the sensor. Higher values generally indicate closer objects."
+                }
+              ],
+              "examples": [
+                "from playcomputer import *\nfrom time import sleep\n\napds = Apds()\napds.enable_proximity_sensor()\n\nwhile True:\n    p = apds.read_proximity()\n    print(p)\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readGesture",
+              "description": "Detects hand gestures using the built-in gesture sensor on the board. The sensor is onboard with fixed pins and requires no additional wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "apds = Apds()\napds.enable_gesture_sensor()\ngesture = apds.read_gesture()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Apds(): Initializes the built-in APDS sensor.\napds.enable_gesture_sensor(): Activates the onboard gesture sensor."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns a value representing the detected gesture. The exact value depends on the library implementation, usually indicating directions like UP, DOWN, LEFT, RIGHT, or NONE."
+                }
+              ],
+              "examples": [
+                "from playcomputer import Apds\nfrom time import sleep\n\napds = Apds()\napds.enable_gesture_sensor()\n\nwhile True:\n    g = apds.read_gesture()\n    print(g)\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readBatteryLevel",
+              "description": "Reads the battery percentage from the built-in battery sensor on the board. The sensor is onboard with a fixed connection and requires no wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "bat = Battery()\nlevel = bat.get_level()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Battery(): Initializes the built-in battery sensor."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the current battery level as a percentage (0–100%)."
+                }
+              ],
+              "examples": [
+                "from playcomputer import *\nfrom time import sleep\n\nbat = Battery()\n\nwhile True:\n    b = bat.get_level()\n    print(b)\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readAccelGyro",
+              "description": "Reads acceleration and gyroscope values from the built-in QMI8658 sensor on the board. The sensor is onboard with fixed pins and requires no additional wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "qmi8658 = Qmi8658()\nxyz = qmi8658.read_xyz()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Qmi8658(): Initializes the built-in 6-axis accelerometer and gyroscope sensor."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns a list of six integers or floats: [ACC_X, ACC_Y, ACC_Z, GYRO_X, GYRO_Y, GYRO_Z], representing acceleration (m/s² or g) and rotational velocity (°/s) along each axis."
+                }
+              ],
+              "examples": [
+                "from playcomputer import Qmi8658\n\nqmi8658 = Qmi8658()\n\nwhile True:\n    xyz = qmi8658.read_xyz()\n    print(f\"ACC_X={xyz[0]}\")\n    print(f\"ACC_Y={xyz[1]}\")\n    print(f\"ACC_Z={xyz[2]}\")\n    print(f\"GYRO_X={xyz[3]}\")\n    print(f\"GYRO_Y={xyz[4]}\")\n    print(f\"GYRO_Z={xyz[5]}\")"
+              ]
+            }
+          ]
+        },
+
+        {
+          "title": "Internal Outputs",
+          "entries": [
+            {
+              "name": "rgbLEDEye",
+              "description": "Controls the 12 built-in RGB eye LEDs on the board. Each LED can be individually set to a specific color using red, green, and blue intensity values.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "eyes = RgbEyes()\neyes.set_pixels(num=number, red=value, green=value, blue=value)\neyes.update_pixels()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "number: Integer from 1 to 12 indicating which RGB eye LED to control.\nvalue: Integers (0–255) representing the intensity of each color channel.\nRgbEyes(): Initializes the onboard RGB eye controller."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The functions set the color of the specified RGB eye LED. Calling update_pixels() updates all changes to the LEDs."
+                }
+              ],
+              "examples": [
+                "from playcomputer import RgbEyes\n\neyes = RgbEyes()\neyes.set_pixels(num=1, red=255, green=255, blue=255)\neyes.update_pixels()"
+              ]
+            },
+
+            {
+              "name": "smileLED",
+              "description": "Controls the four built-in smile LEDs on the board. Each LED can be turned on or off individually using the provided methods.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "smile = SmileLed()\nsmile.on(led_number)\nsmile.off(led_number)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "led_number: Integer from 1 to 4 indicating which smile LED to control.\nSmileLed(): Initializes the onboard smile LED controller."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The functions turn the specified smile LED on or off."
+                }
+              ],
+              "examples": [
+                "from playcomputer import SmileLed\nfrom time import sleep\n\nsmile = SmileLed()\n\nwhile True:\n    smile.on(1)\n    smile.on(2)\n    smile.on(3)\n    smile.on(4)\n    sleep(1)\n\n    smile.off(1)\n    smile.off(2)\n    smile.off(3)\n    smile.off(4)\n    sleep(1)"
+              ]
+            },
+
+            {
+              "name": "buzzerTone",
+              "description": "Controls the built-in buzzer on the board. You can stop, and set the frequency of the buzzer.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "buzzer = Buzzer()\nbuzzer.set_freq(frequency)\nbuzzer.stop()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Buzzer(): Initializes the onboard buzzer.\nfrequency: Integer specifying the tone frequency in Hz."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The functions control the buzzer’s tone output."
+                }
+              ],
+              "examples": [
+                "from playcomputer import Buzzer\nfrom time import sleep\n\nbuzzer = Buzzer()\n\nbuzzer.set_freq(1000)\nsleep(5)\nbuzzer.stop()"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Outputs",
+          "entries": [
+            {
+              "name": "oledDisplay",
+              "description": "Controls an external OLED display connected to the board. You can set text at specific coordinates to show messages.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "oled = Oled()\noled.set_text('string', x, y)\noled.show()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Oled(): Initializes the external OLED display.\nset_text():\n  - string: The text to display (max 16 characters)\n  - x: X-coordinate (0–128)\n  - y: Y-coordinate (0–64)\nshow(): Updates the display to show the set text."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The text is displayed on the OLED screen at the specified coordinates."
+                }
+              ],
+              "examples": [
+                "from playcomputer import Oled\n\noled = Oled()\n\nwhile True:\n    oled.set_text('Free the MALLOCS !!!!', 10, 20)\n    oled.show()"
+              ]
+            },
+            {
+              "name": "externalRGB",
+              "description": "Controls external NeoPixel RGB LEDs connected to the board B port. You can set the color and brightness of each LED individually.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "import machine, neopixel\nnp = neopixel.NeoPixel(machine.Pin(PORT_B1), number_of_leds)\nnp[index] = (R, G, B)\nnp.write()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_B1: The external port where the NeoPixel RGB LEDs are connected.\nnumber_of_leds: Total number of connected LEDs.\nindex: The LED number to set (0 to number_of_leds-1).\nR, G, B: Integers (0–255) representing red, green, blue intensity."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. Updating the LED array changes the color of the connected RGB LEDs after calling np.write()."
+                }
+              ],
+              "examples": [
+                "import playcomputer\nimport machine, neopixel\n\nnp = neopixel.NeoPixel(machine.Pin(playcomputer.PORT_B1), 10)\n\nnp[0] = (255, 0, 0)  # Red\nnp[1] = (0, 128, 0)  # Green\nnp.write()"
+              ]
+            },
+            {
+              "name": "servoOutput",
+              "description": "Controls an external servo motor connected to the board using PWM signals. The servo can be rotated to a specific angle between 0° and 180° by generating the appropriate PWM signal on the external port.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "import playcomputer\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(playcomputer.PORT_A1))\nservo.freq(50)\n\n# Define a helper function to move the servo\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The port where the external servo is connected.\nangle: The angle to rotate the servo to, in degrees (0–180).\nmove_servo(angle): Moves the external servo to the specified angle by converting the angle into the appropriate PWM duty cycle."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The connected external servo motor physically rotates to the specified angle."
+                }
+              ],
+              "examples": [
+                "import playcomputer\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(playcomputer.PORT_A1))\nservo.freq(50)\n\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)\n\ntry:\n    while True:\n        for angle in range(0, 181, 10):\n            move_servo(angle)\n            time.sleep(0.01)\n        for angle in range(180, -1, -10):\n            move_servo(angle)\n            time.sleep(0.01)\nexcept KeyboardInterrupt:\n    servo.deinit()  # Stop PWM when interrupted"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Other Functions",
+          "entries": [
+            {
+              "name": "sleep",
+              "description": "Pauses the execution of the program for a specified number of seconds. Useful for creating delays between actions.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from time import sleep\nsleep(seconds)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "seconds: A number representing the amount of time to pause the program. Can be an integer or a float (e.g., 1 for 1 second, 0.1 for 100 milliseconds)."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The program simply waits for the specified duration before continuing execution."
+                }
+              ],
+              "examples": [
+                "from time import sleep\n\nprint('Start')\nsleep(1)  # Wait for 1 second\nprint('End')"
+              ]
             }
           ]
         }

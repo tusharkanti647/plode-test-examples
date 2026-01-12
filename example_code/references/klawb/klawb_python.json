@@ -1,1 +1,291 @@
-{}
+{
+  "referenceList": ["functions", "variables"],
+  "referenceListDetails": {
+    "functions": {
+      "title": "Functions",
+      "categories": [
+        {
+          "title": "Digital I/O",
+          "entries": [
+            {
+              "name": "GPIO_read",
+              "description": "Reads the digital input value (HIGH or LOW) from a specified GPIO pin using MicroPython.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "pin = Pin(pin_name, Pin.IN)\npin_value = pin.value()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "pin_name: The GPIO pin identifier (e.g., PORT_A1).\nPin.IN: Configures the pin as an input pin."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns 1 if the pin is HIGH and 0 if the pin is LOW."
+                }
+              ],
+              "examples": [
+                "from klaw import *\nfrom machine import Pin\nfrom time import sleep\n\nA1 = Pin(PORT_A1, Pin.IN)\n\nwhile True:\n    A1_val = A1.value()\n    sleep(1)\n    print(A1_val)"
+              ]
+            },
+            {
+              "name": "digitalOutput",
+              "description": "Controls external components connected to a digital output pin. You can set the pin HIGH or LOW to turn devices on or off.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "port = Pin(PORT_A1, Pin.OUT)\nport.value(1)  # Set HIGH\nport.value(0)  # Set LOW"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The external pin where the component is connected.\nPin.OUT: Configures the pin as a digital output.\nvalue: 1 sets HIGH, 0 sets LOW."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. Writing HIGH or LOW to the pin changes the state of the connected external component."
+                }
+              ],
+              "examples": [
+                "from klaw import PORT_A1, Pin\nfrom time import sleep\n\nport = Pin(PORT_A1, Pin.OUT)\n\nwhile True:\n    port.value(1)  # Turn on\n    sleep(1)\n    port.value(0)  # Turn off\n    sleep(1)"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Analog I/O",
+          "entries": [
+            {
+              "name": "ADC_read",
+              "description": "Reads the analog input value from a specified GPIO pin using MicroPython’s ADC (Analog-to-Digital Converter).",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "adc = ADC(Pin(pin_name))\nadc.atten(ADC.ATTN_11DB)\nvalue = adc.read()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "pin_name: The GPIO pin where the analog sensor is connected (e.g., PORT_A1).\nADC.ATTN_11DB: Configures the ADC input range up to 3.3V."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the analog input value, typically ranging from 0 to 4095 depending on the board and voltage."
+                }
+              ],
+              "examples": [
+                "from klaw import PORT_A1, Pin, ADC\nfrom time import sleep\n\npot = ADC(Pin(PORT_A1))\npot.atten(ADC.ATTN_11DB)       # Full range: 3.3V\n\nwhile True:\n    pot_value = pot.read()\n    print(pot_value)\n    sleep(0.1)"
+              ]
+            },
+            {
+              "name": "readUltrasonic",
+              "description": "Reads the distance measured by an external ultrasonic sensor connected to the A port of the Klaw device.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from klaw import UltraSonic\nul = UltraSonic()\n\n# Ultrasonic sensor must be connected to the A port."
+                },
+                {
+                  "header": "Parameters",
+                  "description": "UltraSonic(): Initializes the ultrasonic sensor connected to the specified port.\nread(): Reads the distance measured by the ultrasonic sensor in centimeters."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer or float representing the distance in centimeters measured by the ultrasonic sensor."
+                }
+              ],
+              "examples": [
+                "from klaw import UltraSonic\nfrom time import sleep\n\nul = UltraSonic()  # Ultrasonic sensor connected to A port\n\nwhile True:\n    print(ul.read())  # Reads and prints distance in cm\n    sleep(1)"
+              ]
+            },
+
+            {
+              "name": "pwmOutput",
+              "description": "Controls external components (e.g., LEDs, motors) using PWM signals on a specific pin. You can set the duty cycle to control brightness or speed.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "pwm = PWM(klaw.PORT_A1)\npwm.duty_u16(duty)  # Set PWM duty cycle"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The external pin where the component is connected.\nduty: Integer (0–65535) representing the PWM duty cycle. 32768 = 50% duty cycle."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The function adjusts the PWM signal to control brightness or speed of the connected component."
+                }
+              ],
+              "examples": [
+                "import klaw\nfrom machine import PWM\n\npwm = PWM(klaw.PORT_A1)\npwm.duty_u16(32768)  # 50% duty cycle"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Internal Inputs",
+          "entries": [
+            {
+              "name": "readKlawbSwitch",
+              "description": "Reads the value (pressed or not pressed) from the Klaw device's internal switches. These switches are onboard and do not require external wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "import klaw\nfrom machine import Pin\nswitch = Pin(klaw.PORT_SWITCH1, Pin.IN)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "klaw.PORT_SWITCH1: Constant that represents the first internal switch on the Klaw device.\nPin.IN: Configures the pin as an input to read the switch's state.\nvalue(): Reads the current state of the switch. Returns 1 if pressed, 0 if not pressed."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer:\n1 – when the switch is pressed.\n0 – when the switch is not pressed."
+                }
+              ],
+              "examples": [
+                "import klaw\nfrom machine import Pin\nfrom time import sleep\n\nswitch1 = Pin(klaw.PORT_SWITCH1, Pin.IN)  # '1' indicates the switch number\n\nwhile True:\n    print(switch1.value())\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readKlawbPotentiometer",
+              "description": "Reads the analog input values from the Klaw device's onboard potentiometer. These potentiometers are built into the Klaw device and do not require external wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "import klaw\nfrom machine import ADC, Pin\npot = ADC(Pin(klaw.PORT_JY1))"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "klaw.PORT_JY1: Constant that represents the first internal potentiometer on the Klaw device.\nADC(): Configures the specified pin as an analog-to-digital converter to read analog values.\nread(): Reads the current analog value of the potentiometer."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the analog value read from the potentiometer. The range typically depends on the device's ADC resolution (e.g., 0–4095 for 12-bit ADC)."
+                }
+              ],
+              "examples": [
+                "import klaw\nfrom machine import ADC, Pin\nfrom time import sleep\n\npot1 = ADC(Pin(klaw.PORT_JY1))  # '1' indicates the potentiometer number\n\nwhile True:\n    print(pot1.read())\n    sleep(1)"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Internal Outputs",
+          "entries": [
+            {
+              "name": "klawInternalServoOutput",
+              "description": "Controls the internal servo motor connected to the Klaw device using PWM signals. You can rotate the servo to a specific angle between 0° and 180°.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "import klaw\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(klaw.PORT_MOTOR1))\nservo.freq(50)\n\n# Define a helper function to move the servo\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_MOTOR1: Built-in port for connecting the servo motor.\nangle: The angle to rotate the servo to, in degrees (0–180).\nmove_servo(angle): Moves the servo to the specified angle by converting the angle into the appropriate PWM duty cycle."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The servo motor physically rotates to the specified angle."
+                }
+              ],
+              "examples": [
+                "import klaw\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(klaw.PORT_MOTOR1))\nservo.freq(50)\n\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)\n\ntry:\n    while True:\n        for angle in range(0, 181, 10):\n            move_servo(angle)\n            time.sleep(0.1)\n        for angle in range(180, -1, -10):\n            move_servo(angle)\n            time.sleep(0.1)\nexcept KeyboardInterrupt:\n    servo.deinit()  # Stop PWM when interrupted"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Outputs",
+          "entries": [
+            {
+              "name": "oledDisplay",
+              "description": "Controls an external OLED display connected to the board. You can set text at specific coordinates to show messages.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "oled = Oled()\noled.set_text('string', x, y)\noled.show()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Oled(): Initializes the OLED display.\nset_text():\n  - string: The text to display (max 16 characters)\n  - x: X-coordinate (0–128)\n  - y: Y-coordinate (0–64)\nshow(): Updates the display to show the set text."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The text is displayed on the OLED screen at the specified coordinates."
+                }
+              ],
+              "examples": [
+                "from klaw import Oled\n\noled = Oled()\n\nwhile True:\n    oled.set_text('Free the MALLOCS !!!!', 10, 20)\n    oled.show()"
+              ]
+            },
+            {
+              "name": "servoOutput",
+              "description": "Controls an external servo motor connected to the board using PWM signals. The servo can be rotated to a specific angle between 0° and 180° by generating the appropriate PWM signal on the external port.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "import klaw\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(klaw.PORT_A1))\nservo.freq(50)\n\n# Define a helper function to move the servo\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The port where the external servo is connected.\nangle: The angle to rotate the servo to, in degrees (0–180).\nmove_servo(angle): Moves the external servo to the specified angle by converting the angle into the appropriate PWM duty cycle."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The connected external servo motor physically rotates to the specified angle."
+                }
+              ],
+              "examples": [
+                "import klaw\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(klaw.PORT_A1))\nservo.freq(50)\n\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)\n\ntry:\n    while True:\n        for angle in range(0, 181, 10):\n            move_servo(angle)\n            time.sleep(0.01)\n        for angle in range(180, -1, -10):\n            move_servo(angle)\n            time.sleep(0.01)\nexcept KeyboardInterrupt:\n    servo.deinit()  # Stop PWM when interrupted"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Other Functions",
+          "entries": [
+            {
+              "name": "sleep",
+              "description": "Pauses the execution of the program for a specified number of seconds. Useful for creating delays between actions.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from time import sleep\nsleep(seconds)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "seconds: A number representing the amount of time to pause the program. Can be an integer or a float (e.g., 1 for 1 second, 0.1 for 100 milliseconds)."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The program simply waits for the specified duration before continuing execution."
+                }
+              ],
+              "examples": [
+                "from time import sleep\n\nprint('Start')\nsleep(1)  # Wait for 1 second\nprint('End')"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "variables": {
+      "title": "Variables",
+      "categories": [
+        {
+          "title": "Digital I/O",
+          "entries": [
+            {
+              "name": "pinStatus",
+              "description": "Holds the current status of a digital pin.",
+              "sections": [
+                { "header": "Type", "description": "int" },
+                { "header": "Range", "description": "0 (LOW) or 1 (HIGH)" }
+              ],
+              "examples": ["int status = pinStatus;"]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

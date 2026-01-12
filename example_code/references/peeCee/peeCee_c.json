@@ -1,8 +1,5 @@
 {
-  "referenceList": [
-    "functions",
-    "variables"
-  ],
+  "referenceList": ["functions", "variables"],
   "referenceListDetails": {
     "functions": {
       "title": "Functions",
@@ -49,9 +46,7 @@
                   "description": "None"
                 }
               ],
-              "examples": [
-                "// Sets pin 13 HIGH\ndigitalWrite(13, HIGH);"
-              ]
+              "examples": ["// Sets pin 13 HIGH\ndigitalWrite(13, HIGH);"]
             }
           ]
         },
@@ -75,9 +70,7 @@
                   "description": "0-1023"
                 }
               ],
-              "examples": [
-                "// Read analog value\nint value = analogRead(A0);"
-              ]
+              "examples": ["// Read analog value\nint value = analogRead(A0);"]
             }
           ]
         }
@@ -102,9 +95,7 @@
                   "description": "0 (LOW) or 1 (HIGH)"
                 }
               ],
-              "examples": [
-                "int status = pinStatus;"
-              ]
+              "examples": ["int status = pinStatus;"]
             }
           ]
         }

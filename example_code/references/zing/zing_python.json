@@ -5,56 +5,284 @@
       "title": "Functions",
       "categories": [
         {
-          "title": "Digital I/O zing py",
+          "title": "Digital I/O",
           "entries": [
             {
-              "name": "digitalRead()",
-              "description": "Reads the value from a specified digital pin, either HIGH or LOW.",
-              "sections": [
-                { "header": "Syntax", "description": "digitalRead(pin)" },
-                {
-                  "header": "Parameters",
-                  "description": "Pin: the Arduino pin number you want to read"
-                },
-                { "header": "Returns", "description": "HIGH or LOW" }
-              ],
-              "examples": [
-                "// Reads digital value\nint value = digitalRead(2);\nif (value == HIGH) {\n  // do something\n}"
-              ]
-            },
-            {
-              "name": "digitalWrite()",
-              "description": "Writes a HIGH or a LOW value to a digital pin.",
+              "name": "GPIO_read",
+              "description": "Reads the digital input value (HIGH or LOW) from a specified GPIO pin using MicroPython.",
               "sections": [
                 {
                   "header": "Syntax",
-                  "description": "digitalWrite(pin, value)"
+                  "description": "pin = Pin(pin_name, Pin.IN)\npin_value = pin.value()"
                 },
                 {
                   "header": "Parameters",
-                  "description": "Pin: the Arduino pin number; Value: HIGH or LOW"
+                  "description": "pin_name: The GPIO pin identifier (e.g., PORT_A1).\nPin.IN: Configures the pin as an input pin."
                 },
-                { "header": "Returns", "description": "None" }
+                {
+                  "header": "Returns",
+                  "description": "Returns 1 if the pin is HIGH and 0 if the pin is LOW."
+                }
               ],
-              "examples": ["// Sets pin 13 HIGH\ndigitalWrite(13, HIGH);"]
+              "examples": [
+                "from zing import *\nfrom machine import Pin\nfrom time import sleep\n\nA1 = Pin(PORT_A1, Pin.IN)\n\nwhile True:\n    A1_val = A1.value()\n    sleep(1)\n    print(A1_val)"
+              ]
+            },
+            {
+              "name": "digitalOutput",
+              "description": "Controls external components connected to a digital output pin. You can set the pin HIGH or LOW to turn devices on or off.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "port = Pin(PORT_A1, Pin.OUT)\nport.value(1)  # Set HIGH\nport.value(0)  # Set LOW"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The external pin where the component is connected.\nPin.OUT: Configures the pin as a digital output.\nvalue: 1 sets HIGH, 0 sets LOW."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. Writing HIGH or LOW to the pin changes the state of the connected external component."
+                }
+              ],
+              "examples": [
+                "from zing import PORT_A1, Pin\nfrom time import sleep\n\nport = Pin(PORT_A1, Pin.OUT)\n\nwhile True:\n    port.value(1)  # Turn on\n    sleep(1)\n    port.value(0)  # Turn off\n    sleep(1)"
+              ]
             }
           ]
         },
         {
-          "title": "Analog I/O py",
+          "title": "Analog I/O",
           "entries": [
             {
-              "name": "analogRead()",
-              "description": "Reads the value from the specified analog pin.",
+              "name": "ADC_read",
+              "description": "Reads the analog input value from a specified GPIO pin using MicroPython’s ADC (Analog-to-Digital Converter).",
               "sections": [
-                { "header": "Syntax", "description": "analogRead(pin)" },
+                {
+                  "header": "Syntax",
+                  "description": "adc = ADC(Pin(pin_name))\nadc.atten(ADC.ATTN_11DB)\nvalue = adc.read()"
+                },
                 {
                   "header": "Parameters",
-                  "description": "Pin: the Arduino analog pin number"
+                  "description": "pin_name: The GPIO pin where the analog sensor is connected (e.g., PORT_A1).\nADC.ATTN_11DB: Configures the ADC input range up to 3.3V."
                 },
-                { "header": "Returns", "description": "0-1023" }
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the analog input value, typically ranging from 0 to 4095 depending on the board and voltage."
+                }
               ],
-              "examples": ["// Read analog value\nint value = analogRead(A0);"]
+              "examples": [
+                "from zing import PORT_A1, Pin, ADC\nfrom time import sleep\n\npot = ADC(Pin(PORT_A1))\npot.atten(ADC.ATTN_11DB)       # Full range: 3.3V\n\nwhile True:\n    pot_value = pot.read()\n    print(pot_value)\n    sleep(0.1)"
+              ]
+            },
+            {
+              "name": "pwmOutput",
+              "description": "Controls external components (e.g., LEDs, motors) using PWM signals on a specific pin. You can set the duty cycle to control brightness or speed.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "pwm = PWM(zing.PORT_A1)\npwm.duty_u16(duty)  # Set PWM duty cycle"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The external pin where the component is connected.\nduty: Integer (0–65535) representing the PWM duty cycle. 32768 = 50% duty cycle."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The function adjusts the PWM signal to control brightness or speed of the connected component."
+                }
+              ],
+              "examples": [
+                "import zing\nfrom machine import PWM\n\npwm = PWM(zing.PORT_A1)\npwm.duty_u16(32768)  # 50% duty cycle"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Internal Inputs",
+          "entries": [
+            {
+              "name": "readBatteryLevel",
+              "description": "Reads the battery percentage from the built-in battery sensor on the board. The sensor is onboard with a fixed connection and requires no wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "bat = battery()\nlevel = bat.get_level()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "battery(): Initializes the built-in battery sensor."
+                },
+                {
+                  "header": "Returns",
+                  "description": "Returns an integer representing the current battery level as a percentage (0–100%)."
+                }
+              ],
+              "examples": [
+                "from zing import *\nfrom time import sleep\n\nbat = battery()\n\nwhile True:\n    b = bat.get_level()\n    print(b)\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readAccelGyro",
+              "description": "Reads acceleration and gyroscope values from the built-in IMU sensor on the Zing board. The sensor is onboard and does not require any additional wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from zing import IMU\nimu = IMU()\nacc = imu.get_acc()\ngyro = imu.get_gyro()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "IMU(): Initializes the onboard IMU sensor.\nget_acc(): Reads the accelerometer values.\nget_gyro(): Reads the gyroscope values."
+                },
+                {
+                  "header": "Returns",
+                  "description": "get_acc(): Returns a list of three values [ACC_X, ACC_Y, ACC_Z] representing acceleration along the X, Y, and Z axes.\nget_gyro(): Returns a list of three values [GYRO_X, GYRO_Y, GYRO_Z] representing angular velocity along the X, Y, and Z axes."
+                }
+              ],
+              "examples": [
+                "from zing import IMU\n\nimu = IMU()\n\nwhile True:\n    acc = imu.get_acc()\n    gyro = imu.get_gyro()\n\n    print(f\"ACC_X={acc[0]}\")\n    print(f\"ACC_Y={acc[1]}\")\n    print(f\"ACC_Z={acc[2]}\")\n\n    print(f\"GYRO_X={gyro[0]}\")\n    print(f\"GYRO_Y={gyro[1]}\")\n    print(f\"GYRO_Z={gyro[2]}\")"
+              ]
+            },
+            {
+              "name": "redRGBUltrasonic",
+              "description": "Reads distance and controls the built-in RGB LED of the ultrasonic sensor on the Zing board. The module is onboard and does not require additional wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from zing import RGB_Ultrasonic\nus = RGB_Ultrasonic()\ndistance = us.distance_cm()\nus.rgb_set_color(red, green, blue)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "RGB_Ultrasonic(): Initializes the built-in RGB ultrasonic module.\ndistance_cm(): Returns the distance to an object in centimeters.\nrgb_set_color(red, green, blue): Sets the RGB LED color of the ultrasonic module.\n  - red, green, blue: Integers (0–255) representing color intensity."
+                },
+                {
+                  "header": "Returns",
+                  "description": "distance_cm(): Returns a numeric value representing the measured distance in centimeters.\nrgb_set_color(): No return value. Changes the color of the onboard RGB LED."
+                }
+              ],
+              "examples": [
+                "from zing import RGB_Ultrasonic\nfrom time import sleep\n\nus = RGB_Ultrasonic()\n\nwhile True:\n    dis = us.distance_cm()\n    print(dis)\n    us.rgb_set_color(255, 0, 0)  # Set RGB LED to red\n    sleep(1)"
+              ]
+            },
+            {
+              "name": "readSerialServo",
+              "description": "Controls and reads data from the built-in serial servo motors on the Zing board. You can read servo position, voltage, and enable or disable torque. The servos are onboard and do not require external wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from zing import SerialServo\nservo = SerialServo()\nservo.enable_torque(True/False)\npos = servo.read_pos(servo_id)\nvolt = servo.read_voltage(servo_id)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "SerialServo(): Initializes the onboard serial servo controller.\nenable_torque(state): Boolean to enable (True) or disable (False) the servo torque.\nread_pos(servo_id): Reads the current position of the servo with the given ID.\nread_voltage(servo_id): Reads the voltage supplied to the servo with the given ID."
+                },
+                {
+                  "header": "Returns",
+                  "description": "read_pos(): Returns the current angle/position of the specified servo.\nread_voltage(): Returns the current voltage of the specified servo.\nenable_torque(): No return value. Enables or disables torque for the servo."
+                }
+              ],
+              "examples": [
+                "from zing import SerialServo\nfrom time import sleep\n\nservo = SerialServo()\nservo.enable_torque(False)  # Disable torque\n\nfor _ in range(2):\n    pos1 = servo.read_pos(1)\n    volt1 = servo.read_voltage(1)\n    print('Position:', pos1)\n    print('Voltage:', volt1)\n    sleep(2)\n\nservo.enable_torque(True)  # Enable torque"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Internal Outputs",
+          "entries": [
+            {
+              "name": "rgbLED",
+              "description": "Controls the built-in RGB LEDs on the Zing board. Each LED can be set individually with red, green, and blue intensity values.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from zing import rgb_led\nled = rgb_led()\nled.set_pixels(num, red, green, blue)\nled.update_pixels()"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "num: Integer indicating which RGB LED to control(1 to 4).\nred, green, blue: Integers (0–255) representing the intensity of each color channel.\nrgb_led(): Initializes the onboard RGB LED controller."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The color of the specified RGB LED is updated when update_pixels() is called."
+                }
+              ],
+              "examples": [
+                "from zing import rgb_led\n\nled = rgb_led()\nled.set_pixels(1, 255, 0, 0)  # Set first LED to red\nled.update_pixels()"
+              ]
+            },
+            {
+              "name": "serialServoOutput",
+              "description": "Controls the built-in serial servo motors on the Zing board as output. You can move the servo to a specific angle over a specified duration. The servos are onboard and do not require external wiring.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from zing import SerialServo\nservo = SerialServo()\nservo.move(servo_id, angle, duration_ms)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "SerialServo(): Initializes the onboard serial servo controller.\nservo_id: Integer representing which servo to control.\nangle: Target angle/position to move the servo to.\nduration_ms: Time in milliseconds to complete the movement."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. Moves the specified servo to the target angle over the given duration."
+                }
+              ],
+              "examples": [
+                "from zing import SerialServo\nfrom time import sleep\n\nservo = SerialServo()\n\nwhile True:\n    servo.move(1, 100, 1000)  # Move servo 1 to 100 degrees in 1 second\n    sleep(1)\n    servo.move(1, 1024, 1000) # Move servo 1 to 1024 position in 1 second\n    sleep(1)"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Outputs",
+          "entries": [
+            {
+              "name": "servoOutput",
+              "description": "Controls an external servo motor connected to the board using PWM signals. The servo can be rotated to a specific angle between 0° and 180° by generating the appropriate PWM signal on the external port.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "import zing\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(zing.PORT_A1))\nservo.freq(50)\n\n# Define a helper function to move the servo\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "PORT_A1: The port where the external servo is connected.\nangle: The angle to rotate the servo to, in degrees (0–180).\nmove_servo(angle): Moves the external servo to the specified angle by converting the angle into the appropriate PWM duty cycle."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The connected external servo motor physically rotates to the specified angle."
+                }
+              ],
+              "examples": [
+                "import zing\nfrom machine import Pin, PWM\nimport time\n\nservo = PWM(Pin(zing.PORT_A1))\nservo.freq(50)\n\ndef move_servo(angle):\n    min_pulse = 0.5\n    max_pulse = 2.5\n    pulse = min_pulse + (angle / 180) * (max_pulse - min_pulse)\n    duty = int((pulse / 20) * 65535)\n    servo.duty_u16(duty)\n\ntry:\n    while True:\n        for angle in range(0, 181, 10):\n            move_servo(angle)\n            time.sleep(0.01)\n        for angle in range(180, -1, -10):\n            move_servo(angle)\n            time.sleep(0.01)\nexcept KeyboardInterrupt:\n    servo.deinit()  # Stop PWM when interrupted"
+              ]
+            }
+          ]
+        },
+        {
+          "title": "Other Functions",
+          "entries": [
+            {
+              "name": "sleep",
+              "description": "Pauses the execution of the program for a specified number of seconds. Useful for creating delays between actions.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "from time import sleep\nsleep(seconds)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "seconds: A number representing the amount of time to pause the program. Can be an integer or a float (e.g., 1 for 1 second, 0.1 for 100 milliseconds)."
+                },
+                {
+                  "header": "Returns",
+                  "description": "No return value. The program simply waits for the specified duration before continuing execution."
+                }
+              ],
+              "examples": [
+                "from time import sleep\n\nprint('Start')\nsleep(1)  # Wait for 1 second\nprint('End')"
+              ]
             }
           ]
         }
