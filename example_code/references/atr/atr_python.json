@@ -1,0 +1,31 @@
+{
+  "referenceList": [
+    "newCata"
+  ],
+  "referenceListDetails": {
+    "newCata": {
+      "title": "newCata",
+      "categories": [
+        {
+          "title": "newSub",
+          "description": "jh;fjh djg dgjdj;g gdjg",
+          "entries": [
+            {
+              "name": "newEntri",
+              "description": "thtn mngmgm",
+              "sections": [
+                {
+                  "header": "hhhh",
+                  "description": "dg bdffb"
+                }
+              ],
+              "examples": [
+                "export enum ComplexityLevel {\n  Beginner = \"Beginner\",\n  Intermediate = \"Intermediate\",\n  Expert = \"Expert\",\n}"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

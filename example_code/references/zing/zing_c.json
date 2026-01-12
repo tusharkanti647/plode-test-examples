@@ -1,0 +1,83 @@
+{
+  "referenceList": ["functions", "variables"],
+  "referenceListDetails": {
+    "functions": {
+      "title": "Functions",
+      "categories": [
+        {
+          "title": "Digital I/O zing",
+          "entries": [
+            {
+              "name": "digitalRead()",
+              "description": "Reads the value from a specified digital pin, either HIGH or LOW.",
+              "sections": [
+                { "header": "Syntax", "description": "digitalRead(pin)" },
+                {
+                  "header": "Parameters",
+                  "description": "Pin: the Arduino pin number you want to read"
+                },
+                { "header": "Returns", "description": "HIGH or LOW" }
+              ],
+              "examples": [
+                "// Reads digital value\nint value = digitalRead(2);\nif (value == HIGH) {\n  // do something\n}"
+              ]
+            },
+            {
+              "name": "digitalWrite()",
+              "description": "Writes a HIGH or a LOW value to a digital pin.",
+              "sections": [
+                {
+                  "header": "Syntax",
+                  "description": "digitalWrite(pin, value)"
+                },
+                {
+                  "header": "Parameters",
+                  "description": "Pin: the Arduino pin number; Value: HIGH or LOW"
+                },
+                { "header": "Returns", "description": "None" }
+              ],
+              "examples": ["// Sets pin 13 HIGH\ndigitalWrite(13, HIGH);"]
+            }
+          ]
+        },
+        {
+          "title": "Analog I/O zing",
+          "entries": [
+            {
+              "name": "analogRead()",
+              "description": "Reads the value from the specified analog pin.",
+              "sections": [
+                { "header": "Syntax", "description": "analogRead(pin)" },
+                {
+                  "header": "Parameters",
+                  "description": "Pin: the Arduino analog pin number"
+                },
+                { "header": "Returns", "description": "0-1023" }
+              ],
+              "examples": ["// Read analog value\nint value = analogRead(A0);"]
+            }
+          ]
+        }
+      ]
+    },
+    "variables": {
+      "title": "Variables",
+      "categories": [
+        {
+          "title": "Digital I/O zing",
+          "entries": [
+            {
+              "name": "pinStatus",
+              "description": "Holds the current status of a digital pin.",
+              "sections": [
+                { "header": "Type", "description": "int" },
+                { "header": "Range", "description": "0 (LOW) or 1 (HIGH)" }
+              ],
+              "examples": ["int status = pinStatus;"]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

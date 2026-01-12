@@ -1,0 +1,37 @@
+{
+  "referenceList": [
+    "newcatagory",
+    "new2"
+  ],
+  "referenceListDetails": {
+    "newcatagory": {
+      "title": "newcatagory",
+      "categories": [
+        {
+          "title": "newSubCatagory",
+          "description": "sub catagory description",
+          "language": "python",
+          "deviceFeatures": [
+            "fitchers1",
+            "fitchers 2"
+          ],
+          "imgLink": "/public/example_code/project_templates/atr/assets/0000-943972563900104604.png"
+        }
+      ]
+    },
+    "new2": {
+      "title": "new2",
+      "categories": [
+        {
+          "title": "new sub",
+          "description": "ffdfdbfdb",
+          "language": "python",
+          "complexity": "Expert",
+          "deviceFeatures": [
+            "fgfgdf"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "referenceList": ["device", "community", "tush_ar", "tt"],
+  "referenceListDetails": {
+    "device": {
+      "title": "Device",
+      "categories": [
+        {
+          "title": "Smart Garden Controller",
+          "description": "This is a Demo Description for Smart Garden Controller ",
+          "deviceFeatures": ["Accelerometer", "Buttons"],
+          "complexity": "Intermediate",
+          "language": "c",
+          "imgLink": "./assets/garden.png"
+        },
+        {
+          "title": "Robotic Arm",
+          "description": "This is a Demo Description for Robotic Arm ",
+          "deviceFeatures": ["Accelerometer", "Audio Recording", "LED Display"],
+          "complexity": "Beginner",
+          "language": "c",
+          "imgLink": "./assets/garden2.png"
+        },
+        {
+          "title": "Robotic Arm2",
+          "description": "This is a Demo Description for Robotic Arm2",
+          "deviceFeatures": ["Accelerometer", "Audio Recording", "LED Display"],
+          "complexity": "Beginner",
+          "language": "c",
+          "imgLink": "./assets/garden23.png"
+        },
+        {
+          "title": "Smart Garden Controller Expert",
+          "description": "This is a Demo Description for Smart Garden Controller ",
+          "deviceFeatures": ["Audio Recording"],
+          "complexity": "Expert",
+          "language": "c",
+          "imgLink": "./assets/garden.png"
+        }
+      ]
+    },
+    "community": {
+      "title": "Community",
+      "categories": [
+        {
+          "title": "Smart Garden Controller 123 n",
+          "description": "This is a Demo Description for Smart Garden Controller ",
+          "deviceFeatures": ["Accelerometer", "Audio Recording", "Buttons"],
+          "complexity": "Intermediate",
+          "language": "c",
+          "imgLink": "./assets/garden_copy.png"
+        }
+      ]
+    },
+    "tush_ar": {
+      "title": "tush ar",
+      "categories": [
+        {
+          "title": "mmyy",
+          "description": "hhfd fhlsdafh fdhslkdsf fdhl fdhk",
+          "complexity": "Intermediate",
+          "deviceFeatures": ["dldhjl hlj"],
+          "imgLink": "./assetsinternet.png"
+        }
+      ]
+    },
+    "tt": {
+      "title": "tt",
+      "categories": [
+        {
+          "title": "tt sub",
+          "description": "tt title gdks dgsafjl",
+          "language": "c",
+          "complexity": "Intermediate",
+          "deviceFeatures": ["led "],
+          "imgLink": "/public/example_code/project_templates/peeCee/assets/tt.png",
+          "projectData": {
+            "projectName": "test12",
+            "fileInfo": {
+              "test12.ino": {
+                "filename": "test12.ino",
+                "language": "c",
+                "content": "\nvoid setup() {\n   pinMode(1, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(1, HIGH);\n  delay(1000); \n  digitalWrite(1, LOW);\n  delay(1000);\n}\n// ???\\\\\n"
+              },
+              "tushar.ino": {
+                "filename": "tushar.ino",
+                "language": "c",
+                "content": "\nvoid setup() {\n   pinMode(1, OUTPUT);\n}\n//tyshar tushar\nvoid loop() {\n  digitalWrite(1, HIGH);\n  delay(1000); \n  digitalWrite(1, LOW);\n  delay(1000);\n}\n"
+              }
+            },
+            "containFile": ["test12.ino", "tushar.ino"]
+          }
+        }
+      ]
+    }
+  }
+}
