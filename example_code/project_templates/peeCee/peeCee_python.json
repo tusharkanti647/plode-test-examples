@@ -12,8 +12,7 @@
           "language": "python",
           "complexity": "Expert",
           "deviceFeatures": [
-            "ultrasonic",
-            "led"
+            "ultrasonic"
           ],
           "imgLink": "https://raw.githubusercontent.com/tusharkanti647/plode-test-examples/main/example_code/project_templates/peeCee/assets/green-color-solid-background-1920x1080.png",
           "projectData": {
