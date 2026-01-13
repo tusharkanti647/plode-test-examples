@@ -1,1 +1,47 @@
-{}
+{
+  "referenceList": [
+    "my_catagory"
+  ],
+  "referenceListDetails": {
+    "my_catagory": {
+      "title": "my catagory",
+      "categories": [
+        {
+          "title": "mycatagory read",
+          "description": "my catogory read and output",
+          "entries": [
+            {
+              "name": "syntex",
+              "description": "mycatagory_read()",
+              "sections": [
+                {
+                  "header": "header 1",
+                  "description": "header 1 description"
+                },
+                {
+                  "header": "header 2",
+                  "description": "header 2 description"
+                }
+              ],
+              "examples": [
+                "// my subcatgory read",
+                "// my catgory read 2"
+              ]
+            },
+            {
+              "name": "paramitar",
+              "description": "take read paramitar  none"
+            },
+            {
+              "name": "returns",
+              "description": "returns 0 or 1  read"
+            }
+          ]
+        },
+        {
+          "title": "mycatagoryOutput"
+        }
+      ]
+    }
+  }
+}
