@@ -1,5 +1,10 @@
 {
-  "referenceList": ["device", "community", "tush_ar", "tt"],
+  "referenceList": [
+    "device",
+    "community",
+    "tush_ar",
+    "tt"
+  ],
   "referenceListDetails": {
     "device": {
       "title": "Device",
@@ -7,7 +12,10 @@
         {
           "title": "Smart Garden Controller",
           "description": "This is a Demo Description for Smart Garden Controller ",
-          "deviceFeatures": ["Accelerometer", "Buttons"],
+          "deviceFeatures": [
+            "Accelerometer",
+            "Buttons"
+          ],
           "complexity": "Intermediate",
           "language": "c",
           "imgLink": "./assets/garden.png"
@@ -15,7 +23,11 @@
         {
           "title": "Robotic Arm",
           "description": "This is a Demo Description for Robotic Arm ",
-          "deviceFeatures": ["Accelerometer", "Audio Recording", "LED Display"],
+          "deviceFeatures": [
+            "Accelerometer",
+            "Audio Recording",
+            "LED Display"
+          ],
           "complexity": "Beginner",
           "language": "c",
           "imgLink": "./assets/garden2.png"
@@ -23,7 +35,11 @@
         {
           "title": "Robotic Arm2",
           "description": "This is a Demo Description for Robotic Arm2",
-          "deviceFeatures": ["Accelerometer", "Audio Recording", "LED Display"],
+          "deviceFeatures": [
+            "Accelerometer",
+            "Audio Recording",
+            "LED Display"
+          ],
           "complexity": "Beginner",
           "language": "c",
           "imgLink": "./assets/garden23.png"
@@ -31,7 +47,9 @@
         {
           "title": "Smart Garden Controller Expert",
           "description": "This is a Demo Description for Smart Garden Controller ",
-          "deviceFeatures": ["Audio Recording"],
+          "deviceFeatures": [
+            "Audio Recording"
+          ],
           "complexity": "Expert",
           "language": "c",
           "imgLink": "./assets/garden.png"
@@ -44,10 +62,38 @@
         {
           "title": "Smart Garden Controller 123 n",
           "description": "This is a Demo Description for Smart Garden Controller ",
-          "deviceFeatures": ["Accelerometer", "Audio Recording", "Buttons"],
+          "deviceFeatures": [
+            "Accelerometer",
+            "Audio Recording",
+            "Buttons"
+          ],
           "complexity": "Intermediate",
           "language": "c",
           "imgLink": "./assets/garden_copy.png"
+        },
+        {
+          "title": "myNew",
+          "description": "this a new project",
+          "language": "c",
+          "complexity": "Beginner",
+          "deviceFeatures": [
+            "led",
+            "servo"
+          ],
+          "imgLink": "https://raw.githubusercontent.com/tusharkanti647/plode-test-examples/main/example_code/project_templates/peeCee/assets/card-soft-template-paper-report.jpg",
+          "projectData": {
+            "projectName": "fff",
+            "fileInfo": {
+              "fff.ino": {
+                "filename": "fff.ino",
+                "language": "c",
+                "content": "\nvoid setup() {\n   pinMode(1, OUTPUT);\n}\n\nvoid loop() {\n  digitalWrite(1, HIGH);\n  delay(1000); \n  digitalWrite(1, LOW);\n  delay(1000);\n}\n"
+              }
+            },
+            "containFile": [
+              "fff.ino"
+            ]
+          }
         }
       ]
     },
@@ -58,7 +104,9 @@
           "title": "mmyy",
           "description": "hhfd fhlsdafh fdhslkdsf fdhl fdhk",
           "complexity": "Intermediate",
-          "deviceFeatures": ["dldhjl hlj"],
+          "deviceFeatures": [
+            "dldhjl hlj"
+          ],
           "imgLink": "./assetsinternet.png"
         }
       ]
@@ -71,7 +119,9 @@
           "description": "tt title gdks dgsafjl",
           "language": "c",
           "complexity": "Intermediate",
-          "deviceFeatures": ["led "],
+          "deviceFeatures": [
+            "led "
+          ],
           "imgLink": "/public/example_code/project_templates/peeCee/assets/tt.png",
           "projectData": {
             "projectName": "test12",
@@ -87,7 +137,10 @@
                 "content": "\nvoid setup() {\n   pinMode(1, OUTPUT);\n}\n//tyshar tushar\nvoid loop() {\n  digitalWrite(1, HIGH);\n  delay(1000); \n  digitalWrite(1, LOW);\n  delay(1000);\n}\n"
               }
             },
-            "containFile": ["test12.ino", "tushar.ino"]
+            "containFile": [
+              "test12.ino",
+              "tushar.ino"
+            ]
           }
         }
       ]
