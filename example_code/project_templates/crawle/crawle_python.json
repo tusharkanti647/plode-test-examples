@@ -5,18 +5,7 @@
   "referenceListDetails": {
     "device": {
       "title": "device",
-      "categories": [
-        {
-          "title": "project1",
-          "complexity": "Beginner",
-          "language": "python",
-          "description": "project 1 description",
-          "deviceFeatures": [
-            "led"
-          ],
-          "imgLink": "https://raw.githubusercontent.com/YuduRobotics/plode-scripting-example_code/main/example_code/project_templates/crawle/assets/card-soft-template-paper-report.jpg"
-        }
-      ]
+      "categories": []
     }
   }
 }
