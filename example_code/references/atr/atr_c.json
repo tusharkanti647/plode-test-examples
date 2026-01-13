@@ -1,1 +1,21 @@
-{}
+{
+  "referenceList": [
+    "test",
+    "test"
+  ],
+  "referenceListDetails": {
+    "test": {
+      "title": "test",
+      "categories": [
+        {
+          "title": "test",
+          "entries": [
+            {
+              "name": "test code"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
