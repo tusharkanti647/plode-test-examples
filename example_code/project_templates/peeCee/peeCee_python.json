@@ -1,1 +1,54 @@
-{}
+{
+  "referenceList": [
+    "device"
+  ],
+  "referenceListDetails": {
+    "device": {
+      "title": "device",
+      "categories": [
+        {
+          "title": "test",
+          "description": "test description",
+          "language": "python",
+          "complexity": "Expert",
+          "deviceFeatures": [
+            "ultrasonic",
+            "led"
+          ],
+          "imgLink": "https://raw.githubusercontent.com/tusharkanti647/plode-test-examples/main/example_code/project_templates/peeCee/assets/green-color-solid-background-1920x1080.png",
+          "projectData": {
+            "projectName": "test",
+            "fileInfo": {
+              "main.py": {
+                "filename": "main.py",
+                "language": "python",
+                "content": "from playcomputer import *\nfrom time import sleep\n\n\nqmi8658 = Qmi8658()\nsmile = SmileLed()\n\nwhile True:\n    print(qmi8658.read_xyz()[0])\n    sleep(1)\n\n    # if (qmi8658.read_xyz()[0] > 50) :\n    #     smile.on(1)\n    \n    # if (qmi8658.read_xyz()[0] < 50) :\n    #     smile.off(1)"
+              },
+              "tt.py": {
+                "filename": "tt.py",
+                "language": "python",
+                "content": "    # if (qmi8658.read_xyz()[0] > 50) :\n    #     smile.on(1)\n    \n    # if (qmi8658.read_xyz()[0] < 50) :\n    #     smile.off(1)"
+              },
+              "mm.py": {
+                "filename": "mm.py",
+                "language": "python",
+                "content": "print('tushar')"
+              },
+              "Copy_tt.py": {
+                "filename": "Copy_tt.py",
+                "language": "python",
+                "content": "    # if (qmi8658.read_xyz()[0] > 50) :\n    #     smile.on(1)\n    \n    # if (qmi8658.read_xyz()[0] < 50) :\n    #     smile.off(1)"
+              }
+            },
+            "containFile": [
+              "main.py",
+              "tt.py",
+              "mm.py",
+              "Copy_tt.py"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
