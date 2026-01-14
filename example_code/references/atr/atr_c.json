@@ -4,7 +4,17 @@
   ],
   "referenceListDetails": {
     "uu": {
-      "title": "uu"
+      "title": "uu",
+      "categories": [
+        {
+          "title": "sub uu",
+          "entries": [
+            {
+              "name": "1st entry"
+            }
+          ]
+        }
+      ]
     }
   }
 }
